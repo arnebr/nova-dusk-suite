@@ -9,12 +9,14 @@ use Laravel\Nova\Actions\ExportAsCsv;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\BooleanGroup;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Matrix;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -125,19 +127,18 @@ class User extends Resource
 
             HasMany::make('Posts', 'posts', Post::class),
 
-            new Panel('Settings', [
-                Select::make('Pagination', 'settings.pagination')
-                    ->options([
-                        'simple' => 'Simple',
-                        'load-more' => 'Load More',
-                        'links' => 'Link',
-                    ])
-                    ->fillUsing(function ($request, $model, $attribute, $requestAttribute) {
-                        data_set($model, $attribute, $request->input((string) Str::of($requestAttribute)->replace('.', '_')));
-                    })
-                    ->displayUsingLabels()
-                    ->hideFromIndex(),
-            ]),
+            Matrix::make('Settings')
+                ->fields([
+                    Currency::make('Currency'),
+                    Select::make('Pagination')
+                        ->options([
+                            'simple' => 'Simple',
+                            'load-more' => 'Load More',
+                            'links' => 'Link',
+                        ])
+                        ->displayUsingLabels()
+                        ->hideFromIndex(),
+                ]),
 
             BelongsToMany::make('Roles')
                         ->display('name')
