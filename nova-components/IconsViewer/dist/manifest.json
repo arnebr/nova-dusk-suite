@@ -1,12 +1,5 @@
 {
-  "resources/js/tool.css": {
-    "file": "assets/tool.css",
-    "src": "resources/js/tool.css"
-  },
   "resources/js/tool.js": {
-    "css": [
-      "assets/tool.css"
-    ],
     "file": "assets/tool.js",
     "isEntry": true,
     "src": "resources/js/tool.js"

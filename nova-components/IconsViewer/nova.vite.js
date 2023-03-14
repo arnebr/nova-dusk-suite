@@ -13,7 +13,6 @@ const defaultAliases = {
 export default function novaPlugin({ name, assets }) {
   return {
     name: 'laravel-nova',
-    enforce: 'pre',
     config: (userConfig, { command, mode }) => {
       return {
         resolve: {
@@ -44,6 +43,8 @@ export default function novaPlugin({ name, assets }) {
             input: assets,
             output: {
               name,
+              extend: true,
+              format: 'iife',
               manualChunks: undefined,
               globals: {
                 vue: 'Vue',
