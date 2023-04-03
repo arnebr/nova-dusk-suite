@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Badge;
+use Laravel\Nova\Fields\Eloquent;
 use Laravel\Nova\Fields\Email;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
@@ -89,6 +90,8 @@ class Subscriber extends Resource
                         $query->whereNull('email_verified_at');
                     });
                 }),
+
+            Eloquent::make('User Account', 'meta.user_id', User::class)->searchable(),
         ];
     }
 
