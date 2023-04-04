@@ -91,7 +91,7 @@ class Subscriber extends Resource
                     });
                 }),
 
-            Eloquent::make('User Account', 'meta.user_id', User::class)->searchable(),
+            Eloquent::make('User Account', 'meta->user_id', User::class)->searchable(),
         ];
     }
 
