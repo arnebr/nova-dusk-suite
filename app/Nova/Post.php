@@ -80,6 +80,7 @@ class Post extends Resource
                 ->searchable(uses_searchable())
                 ->showCreateRelationButton(uses_inline_create())
                 ->filterable()
+                ->nullable()
                 ->showOnPreview(),
 
             Text::make('Title', 'title')->rules('required')->sortable(),
