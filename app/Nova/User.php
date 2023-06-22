@@ -123,7 +123,8 @@ class User extends Resource
 
             Tag::make('Projects')
                 ->displayAsList()
-                ->withPreview(),
+                ->withPreview()
+                ->showCreateRelationButton(uses_inline_create()),
 
             ResourceTool::make()->canSee(function ($request) {
                 return ! transform($request->user(), function ($user) {
@@ -199,8 +200,7 @@ class User extends Resource
                 ->filterable(),
 
             BelongsToMany::make('Purchase Books', 'personalBooks', Book::class)
-                ->fields(new Fields\BookPurchase('personal'))
-                ->help('Self-purchased books'),
+                ->fields(new Fields\BookPurchase('personal')),
 
             BelongsToMany::make('Gift Books', 'giftBooks', Book::class)
                 ->fields(
@@ -214,8 +214,7 @@ class User extends Resource
                         }),
                     ])
                 )->filterable()
-                ->allowDuplicateRelations()
-                ->help('Books purchased as gift'),
+                ->allowDuplicateRelations(),
         ];
     }
 
