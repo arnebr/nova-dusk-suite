@@ -307,8 +307,8 @@ class User extends Resource
     public function filters(NovaRequest $request): array
     {
         return [
-            new Filters\WithPosts,
-            new Filters\SelectFirst,
+            Filters\WithPosts::make()->searchable(uses_searchable()),
+            Filters\SelectFirst::make()->searchable(uses_searchable()),
             new Filters\Created,
         ];
     }

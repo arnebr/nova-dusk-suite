@@ -2,18 +2,11 @@
 
 namespace App\Nova\Filters;
 
-use Laravel\Nova\Filters\Filter;
+use Laravel\Nova\Filters\SelectFilter as Filter;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class WithPosts extends Filter
 {
-    /**
-     * The filter's component.
-     *
-     * @var string
-     */
-    public $component = 'select-filter';
-
     /**
      * Apply the filter to the given query.
      *

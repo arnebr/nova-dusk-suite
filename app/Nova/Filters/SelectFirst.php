@@ -2,7 +2,7 @@
 
 namespace App\Nova\Filters;
 
-use Laravel\Nova\Filters\Filter;
+use Laravel\Nova\Filters\SelectFilter as Filter;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class SelectFirst extends Filter
