@@ -11,7 +11,7 @@ class Company extends Model
 {
     use SoftDeletes;
 
-    protected $guarded = [];
+    protected array $guarded = [];
 
     /**
      * Get the company's photo.
