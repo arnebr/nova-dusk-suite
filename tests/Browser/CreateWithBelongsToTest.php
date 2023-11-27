@@ -6,6 +6,7 @@ use App\Models\User;
 use Database\Factories\DockFactory;
 use Laravel\Dusk\Browser;
 use Laravel\Nova\Testing\Browser\Components\BreadcrumbComponent;
+use Laravel\Nova\Testing\Browser\Components\Controls\RelationSelectControlComponent;
 use Laravel\Nova\Testing\Browser\Components\FormComponent;
 use Laravel\Nova\Testing\Browser\Components\SearchInputComponent;
 use Laravel\Nova\Testing\Browser\Pages\Create;
@@ -34,6 +35,40 @@ class CreateWithBelongsToTest extends DuskTestCase
             $this->assertEquals('Test Post Body', $post->body);
 
             $browser->blank();
+        });
+    }
+
+    public function test_toggling_with_trashed_on_belongs_to_field_resets_the_original_value_is_not_still_there()
+    {
+        \App\Models\Company::create(['name' => 'Laravel LLC']);
+        \App\Models\Company::create(['name' => 'Tailwind Labs Inc']);
+        \App\Models\Company::create(['name' => 'Monarkee LLC']);
+
+        \App\Models\Company::find(3)->delete();
+
+//        1. Select withTrashed on companies
+//        2. Select a deleted company (3)
+//        3. Unselect withTrashed
+//        4. Assert that the company is not selected anymore
+
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(1)
+                ->visit(new Create('profiles'))
+                ->within(new FormComponent(), function ($browser) {
+                    $browser->withTrashedRelation('companies')
+                        ->selectRelation('companies', 3)
+                        ->withoutTrashedRelation('companies');
+
+                    $browser->whenAvailable(
+                        new RelationSelectControlComponent('companies'),
+                        function (Browser $browser) {
+                            $browser->assertSelectHasOption('', 1)
+                                ->assertSelectHasOption('', 1);
+
+                            $browser->assertSelectMissingOption('', 3);
+                        }
+                    );
+                });
         });
     }
 
